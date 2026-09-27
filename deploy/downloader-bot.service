@@ -1,0 +1,18 @@
+[Unit]
+Description=Telegram video downloader bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=downloader-bot
+WorkingDirectory=/opt/downloader-bot
+EnvironmentFile=/opt/downloader-bot/.env
+ExecStart=/opt/downloader-bot/.venv/bin/python -m downloader_bot
+Restart=always
+RestartSec=5
+# SIGTERM сначала получает основной процесс, воркеры пула — вместе с ним
+KillMode=control-group
+
+[Install]
+WantedBy=multi-user.target
